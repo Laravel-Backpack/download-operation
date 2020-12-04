@@ -4,8 +4,6 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![The Whole Fruit Manifesto](https://img.shields.io/badge/writing%20standard-the%20whole%20fruit-brightgreen)](https://github.com/the-whole-fruit/manifesto)
 
-> **// TODO: customize this description and delete this line**
-
 This package provides a way to add "Download" buttons to your Backpack CRUDs, which will download a PDF/image of a Blade view you want. 
 
 This pacakage uses [Backpack for Laravel](https://backpackforlaravel.com/) (of course) but also [spatie/browsershot](https://github.com/spatie/browsershot/), which itself uses a headless Chrome Browser to generate the PDFs. Because of that:
@@ -14,14 +12,7 @@ This pacakage uses [Backpack for Laravel](https://backpackforlaravel.com/) (of c
 
 ## Screenshots
 
-> **// TODO: add a screenshot and delete these lines;** 
-> to add a screenshot to a github markdown file, the easiest way is to
-> open an issue, upload the screenshot there with drag&drop, then close the issue;
-> you now have that image hosted on Github's servers; so you can then right-click 
-> the image to copy its URL, and use that URL wherever you want (for example... here)
-
-![Backpack Toggle Field Addon](https://via.placeholder.com/600x250?text=screenshot+needed)
-
+![Backpack Download and BulkDownload buttons](https://user-images.githubusercontent.com/1032474/101194862-3f82cc00-3667-11eb-856c-25c21f0181a5.gif)
 
 ## Installation
 
