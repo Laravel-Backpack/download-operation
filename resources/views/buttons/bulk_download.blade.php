@@ -35,8 +35,8 @@
             className: "bg-secondary",
             closeModal: true,
           },
-            delete: {
-            text: "{{ trans('backpack::crud.bulk_no_entries_selected_title') }}",
+            download: {
+            text: "{{ trans('backpack.downloadoperation::downloadoperation.download') }}",
             value: true,
             visible: true,
             className: "bg-primary",
