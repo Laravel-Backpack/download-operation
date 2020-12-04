@@ -6,7 +6,7 @@
 
 This package provides a way to add "Download" buttons to your Backpack CRUDs, which will download a PDF/image of a Blade view you want. 
 
-This pacakage uses [Backpack for Laravel](https://backpackforlaravel.com/) (of course) but also [spatie/browsershot](https://github.com/spatie/browsershot/), which itself uses a headless Chrome Browser to generate the PDFs. Because of that:
+This package uses [Backpack for Laravel](https://backpackforlaravel.com/) (of course) but also [spatie/browsershot](https://github.com/spatie/browsershot/), which itself uses a headless Chrome Browser to generate the PDFs. Because of that:
 - PRO: you don't need to code special views for them to look good in PDF form; if it looks good in the browser, it'll look good in the PDF; 
 - CON: you need to install a bunch of stuff on your server (puppeteer and Chrome); so you probably can't use this on shared hosting;
 
