@@ -44,7 +44,7 @@ trait DownloadOperation
             }
         });
 
-        $this->crud->operation('list', function () {
+        $this->crud->operation(['list', 'show'], function () {
             $this->crud->addButton('line', 'download', 'view', 'backpack.downloadoperation::buttons.download');
         });
     }
