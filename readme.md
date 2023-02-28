@@ -14,9 +14,7 @@ This package provides a way to add "Download" buttons to your Backpack CRUDs. By
 
 ## Requirements
 
-This package uses [Backpack for Laravel](https://backpackforlaravel.com/) (of course) but also [spatie/browsershot](https://github.com/spatie/browsershot/), which itself uses Puppeteer, which itself uses a headless Chrome browser to generate the PDFs. 
-
-Because of that:
+This package uses [Backpack for Laravel](https://backpackforlaravel.com/) (of course) but also [spatie/browsershot](https://github.com/spatie/browsershot/), which itself uses Puppeteer, which itself uses a headless Chrome browser to generate the PDFs. Because of that:
 - PRO: you don't need to code special views for them to look good in PDF form; if it looks good in the browser, it'll probably look good in the PDF; 
 - CON: you need to install a bunch of stuff on your server (Puppeteer and Chrome); so you probably can't use this on shared hosting;
 
