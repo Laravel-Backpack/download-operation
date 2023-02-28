@@ -104,6 +104,13 @@ PUPPETEER_CACHE_DIR="/Users/tabacitu/.cache/puppeteer"
 
 You might also need to create that directory and restart your server. After that, it should work.
 
+### Does not work on M1 Mac (aka. chromium arm64 bug)
+
+If you're running an M1 or M2 Mac, you might need to follow [this tutorial](https://linguinecode.com/post/how-to-fix-m1-mac-puppeteer-chromium-arm64-bug).
+
+### Other problems
+
+We heavily recommend you check Puppeteer's troubleshooting page: https://pptr.dev/troubleshooting
 
 ## Contributing
 
