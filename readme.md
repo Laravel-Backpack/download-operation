@@ -71,11 +71,39 @@ If you need to change anything else about the generated file (like changing from
 
 Changes are documented here on Github. Please see the [Releases tab](https://github.com/lc:vendor/downloadoperation/releases).
 
-## Testing
+## Troubleshooting
 
-``` bash
-composer test
+This package uses [spatie/browsershot](https://github.com/spatie/browsershot/), which uses Puppetteer, which itself uses a headless Chrome. So... a lot can go wrong during the installation phase. It can either go silky-smooth or be a nightmare. To help you out, here are a few issues we've encountered, and their solutions.
+
+### How to test if the Puppeteer installation is working
+
+We recommend you run a tinker (`php artisan tinker`) and try the following:
+
+```php
+use Spatie\Browsershot\Browsershot;
+
+Browsershot::url('https://google.com')->ignoreHttpsErrors()->save('example.pdf');
 ```
+
+If that triggers errors... the problem is with your Puppeteer installation. Take a hard look at the error message, it might provide steps to fix or clues.
+
+### Could not find Chromium (rev. 1095492)
+
+We've gotten this error, along the years, for multiple reasons:
+- we had to upgrade the node version
+- we were not using that node version
+- the chache path was indeed incorrect (see below)
+
+### Cache path is wrong (eg. on MacOS when using Laravel Valet)
+
+In your error message, see what cache path is being used. Most likely it's trying to use `.cache/puppeteer` inside the PROJECT DIRECTORY. Which is wrong, because it definitely won't find Chrome there. You want it to use the GLOBAL DIRECTORY. To define a cache path for a particular project, you can define a new `.ENV` variable:
+
+```
+PUPPETEER_CACHE_DIR="/Users/tabacitu/.cache/puppeteer"
+```
+
+You might also need to create that directory and restart your server. After that, it should work.
+
 
 ## Contributing
 
