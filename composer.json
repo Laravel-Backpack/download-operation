@@ -14,7 +14,7 @@
         "Laravel", "Backpack", "Backpack for Laravel", "Backpack Addon", "Download Operation", "Download PDF", "Download Snapshot", "Download Image", "Backpack Download Button"
     ],
     "require": {
-        "backpack/crud": "^5.0",
+        "backpack/crud": "^5.0|^6.0",
         "spatie/browsershot": "^3.41"
     },
     "require-dev": {
