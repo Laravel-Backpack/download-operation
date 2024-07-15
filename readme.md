@@ -20,7 +20,7 @@ This package uses [Backpack for Laravel](https://backpackforlaravel.com/) (of co
 
 ## Installation
 
-**Step 0.** Install [Puppeteer](https://spatie.be/docs/browsershot/v2/requirements) and [spatie/browsershot](https://github.com/spatie/browsershot/), as instructed by Browsershot documentation. Then test your installation by runnning a tinker session (`php artisan tinker`) with the following code: `\Spatie\Browsershot\Browsershot::url('https://google.com')->ignoreHttpsErrors()->save('example.pdf');`. If that simple code triggers errors, please fix your Browsershot / Puppeteer installation before going any further. We've provided a few [troubleshooting tips & tricks](https://github.com/Laravel-Backpack/download-operation/edit/main/readme.md#troubleshooting) at the bottom of this page.
+**Step 0.** Install [Puppeteer](https://spatie.be/docs/browsershot/v4/requirements) and [spatie/browsershot](https://github.com/spatie/browsershot/), as instructed by Browsershot documentation. Then test your installation by runnning a tinker session (`php artisan tinker`) with the following code: `\Spatie\Browsershot\Browsershot::url('https://google.com')->ignoreHttpsErrors()->save('example.pdf');`. If that simple code triggers errors, please fix your Browsershot / Puppeteer installation before going any further. We've provided a few [troubleshooting tips & tricks](https://github.com/Laravel-Backpack/download-operation/edit/main/readme.md#troubleshooting) at the bottom of this page.
 
 **Step 1.** Install this package via Composer
 
@@ -39,7 +39,7 @@ class InvoiceCrudController extends CrudController
 +    use \Backpack\DownloadOperation\BulkDownloadOperation;
 ```
 
-Please note that BulkDownload is not a "real" operation. It's just a button that points to the normal "Download" operation. So you cannot use `BulkDeleteOperation` without `DeleteOperation`.
+Please note that `BulkDownloadOperation` is not a "real" operation. It's just a button that points to the normal "Download" operation. So you cannot use `BulkDownloadOperation` without `DownloadOperation`. The inverse is possible, only using `DownloadOperation` without `BulkDownloadOperation`.
 
 **Step 3.** Configure your download operation by defining your fields and settings in `setupDownloadOperation()`
 
@@ -49,22 +49,65 @@ Please note that BulkDownload is not a "real" operation. It's just a button that
      */
     public function setupDownloadOperation()
     {
-        // you can of course manually add your columns:
+        // [OPTION 1] - you can manually add your columns:
         CRUD::column('title');
         
-        // but since you've probably already defined columns in your List or Show operation, you could do:
-        $this->setupListOperation();
+        // [OPTION 2] - since you've probably already defined columns in your List or Show operation, you could do:
+        $this->setupListOperation(); // or $this->setupShowOperation();
         
         // in addition, in case you want to change settings:
-        CRUD::set('download.view', 'user.invoice.wrapper'); // default is 'crud::show'
-        CRUD::set('download.format', 'A4'); // default is 'A4'
-        CRUD::set('download.headers', ['Content-Type' => 'application/pdf']); // default is 'A4'
+        CRUD::set('download.view', 'user.invoice.download'); // default is: crud::show
+        CRUD::set('download.format', 'A3'); // default is: A4
+        CRUD::set('download.headers', ['Content-Type' => 'application/pdf']); // default is: ['Content-Type' => 'application/pdf']
+
+        // in case you want to configure browsershot instance. more info on Overriding section.
+        CRUD::set('download.browsershot', \App\DownloadInvoice::class); // default is: null
     }
 ```
 
-## Overriding
+## Configuration
 
-If you need to change anything else about the generated file (like changing from PDF to something else), you can create a `downloadFile()` method in your EntityCrudController. That will give you the freedom to change anything you want:
+### Publish the config file
+
+You can optionally publish the config file to overwrite the default settings:
+
+```bash
+php artisan vendor:publish --provider="Backpack\DownloadOperation\AddonServiceProvider" --tag=config
+```
+
+### Configure the Browsershot instance
+
+If you need to change the way the PDF is generated, you can create a new `__invokable()` class. The class should return the `Browsershow` result we will stream to the browser. Here is an example:
+
+```php
+    // in your EntityCrudController.php
+    protected function setupDownloadOperation() {
+        // ...
+        CRUD::set('download.browsershot', \App\DownloadInvoice::class);
+    }
+
+    // create the following file in App\DownloadInvoice.php
+    namespace App;
+
+    use Spatie\Browsershot\Browsershot;
+
+    class DownloadInvoice
+    {
+        public function __invoke($data)
+        {
+            // check spatie docs for more options
+            return Browsershot::html(view($data['view'], $data))
+                ->noSandbox()
+                ->setChromePath('/usr/bin/google-chrome-stable')
+                ->format($data['format'])
+                ->pdf();
+        }
+    }
+```
+
+### Configure the download method
+
+If you need to change the way the file is downloaded, you can create a new `downloadFile()` method in your EntityCrudController. Here is an example:
 
 ```php
     protected function downloadFile($data)

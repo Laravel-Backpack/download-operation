@@ -33,19 +33,6 @@ trait DownloadOperation
 
         $this->crud->operation('download', function () {
             $this->crud->loadDefaultOperationSettingsFromConfig();
-
-            // if no default setting have been registered using config file
-            // or therwise, then use some generics
-            if (!$this->crud->get('download.view')) {
-                $this->crud->set('download.view', 'crud::show');
-                $this->crud->set('show.contentClass', 'col-md-12');
-            }
-            if (!$this->crud->get('download.format')) {
-                $this->crud->set('download.format', 'A4');
-            }
-            if (!$this->crud->get('download.headers')) {
-                $this->crud->set('download.headers', ['Content-Type' => 'application/pdf']);
-            }
         });
 
         $this->crud->operation(['list', 'show'], function () {
@@ -58,7 +45,7 @@ trait DownloadOperation
      *
      * @return Response
      */
-    public function download()
+    public function download($id = null)
     {
         $this->crud->hasAccessOrFail('download');
 
@@ -72,7 +59,8 @@ trait DownloadOperation
         $data['format'] = $this->crud->get('download.format');
         $data['view'] = $this->crud->get('download.view');
         $data['headers'] = $this->crud->get('download.headers');
-
+        $data['browsershot'] = $this->crud->get('download.browsershot');
+        
         return $this->downloadFile($data);
     }
 
@@ -86,6 +74,11 @@ trait DownloadOperation
     protected function downloadFile($data)
     {
         return response()->streamDownload(function () use ($data) {
+            if ($data['browsershot']) {
+                echo (new $data['browsershot'])($data);
+                return;
+            }
+
             echo Browsershot::html(view($data['view'], $data))
                 ->format($data['format'])
                 ->pdf();
