@@ -1,5 +1,5 @@
 @if ($crud->hasAccess('download') && $crud->get('list.bulkActions'))
-  <a href="javascript:void(0)" onclick="bulkDownloadEntries(this)" class="btn btn-sm btn-secondary bulk-button"><i class="la la-download"></i> {{ trans('backpack.downloadoperation::downloadoperation.download') }}</a>
+  <a href="javascript:void(0)" onclick="bulkDownloadEntries(this)" bp-button="bulkDownload" class="btn btn-sm btn-secondary bulk-button"><i class="la la-download"></i><span> {{ trans('backpack.downloadoperation::downloadoperation.download') }}</span></a>
 @endif
 
 @push('after_scripts')
