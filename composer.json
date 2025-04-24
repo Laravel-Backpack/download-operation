@@ -15,7 +15,7 @@
     ],
     "require": {
         "backpack/crud": "^5.0|^6.0",
-        "spatie/browsershot": "^3.41|^4.0"
+        "spatie/browsershot": "^3.41|^4.0|^5.0"
     },
     "require-dev": {
         "phpunit/phpunit": "~9.0",
